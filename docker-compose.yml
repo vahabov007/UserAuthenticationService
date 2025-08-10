@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  springboot-app:
+    build: .
+    container_name: login-demo-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresdb
+    environment:
+      - spring.datasource.url=jdbc:postgresql://postgresdb:5432/postgres
+      - spring.datasource.username=postgres
+      - spring.datasource.password=Postgre123
+      # Gmail konfiqurasiyası
+      - spring.mail.host=smtp.gmail.com
+      - spring.mail.port=587
+      - spring.mail.username=vahabovcompany@gmail.com
+      - spring.mail.password=erslkblrisncsdaz # Sizin tətbiq şifrəniz
+      - spring.mail.properties.mail.smtp.auth=true
+      - spring.mail.properties.mail.smtp.starttls.enable=true
+
+  postgresdb:
+    image: postgres:12
+    container_name: postgresdb
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Postgre123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

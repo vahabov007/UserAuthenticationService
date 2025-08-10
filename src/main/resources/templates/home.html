@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vahab Company</title>
+    <link rel="icon" type="image/jpeg" th:href="@{/images/login.jpg}">
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="home-page-new">
+
+<div class="container home-container-new">
+    <div class="intro-content home-content-new">
+        <h1 class="company-title" data-hover-text="Back-end Developer">Vahab Vahabov</h1>
+
+        <div class="tech-info-section">
+            <p>
+                This application was developed using modern technologies to provide a secure and robust experience.
+                It features a user registration and login system with email verification.
+            </p>
+
+            <div class="tech-stack-cards">
+                <div class="tech-card">
+                    <strong>Backend:</strong>
+                    <span>Spring Boot, Spring Security</span>
+                </div>
+                <div class="tech-card">
+                    <strong>Frontend:</strong>
+                    <span>Thymeleaf, HTML, CSS, JavaScript</span>
+                </div>
+                <div class="tech-card">
+                    <strong>Database:</strong>
+                    <span>PostgreSQL</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="site-buttons-new">
+            <a href="https://vahabvahabov.site" target="_blank" class="site-btn-new">
+                Visit My Portfolio
+                <i class="fas fa-arrow-right"></i>
+            </a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="form-btn logout-btn-new">Logout</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="animated-bg"></div>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="icon" type="image/jpeg" th:href="@{/images/login.jpg}">
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="left-panel">
+        <div class="intro-content">
+            <h1>Registration</h1>
+            <p>Create a new account to get started.</p>
+            <div class="account-switch-link">
+                Already have an account? <a th:href="@{/my-login}">Sign In</a>
+            </div>
+        </div>
+        <div class="falling-leaves">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="waves">
+            <div class="wave" style="--wave-delay: 0s;"></div>
+            <div class="wave" style="--wave-delay: 0.5s;"></div>
+            <div class="wave" style="--wave-delay: 1s;"></div>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <form id="registration-form" class="login-form" method="post" novalidate>
+            <h2>Create an account</h2>
+
+            <div id="email-section">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="mail" placeholder="Email address" required>
+                </div>
+                <div id="email-error-message" class="error-message" style="display: none;"></div>
+            </div>
+
+            <div id="pin-verification-area" style="display: none;">
+                <div class="input-group">
+                    <i class="fas fa-key"></i>
+                    <input type="text" id="pin" name="pin" placeholder="PIN code" required>
+                </div>
+                <div id="pin-error-message" class="error-message" style="display: none;"></div>
+                <div id="pin-timer"></div>
+                <button type="button" class="form-btn" id="verify-pin-btn">Verify PIN</button>
+                <div class="resend-link-container">
+                    <button type="button" class="resend-btn" id="resend-pin-btn">Resend PIN</button>
+                </div>
+            </div>
+
+            <div id="password-creation-area" style="display: none;">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" placeholder="Username" required minlength="3" maxlength="40">
+                </div>
+                <span id="username-error-message" class="error-message" style="display: none;"></span>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <span class="password-toggle"><i class="fas fa-eye"></i></span>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                    <span class="password-toggle"><i class="fas fa-eye"></i></span>
+                </div>
+                <div id="password-error-message" class="error-message" style="display: none;"></div>
+                <div class="input-group">
+                    <i class="fas fa-calendar-alt"></i>
+                    <input type="date" id="dateOfBirth" placeholder="Date of Birth" required>
+                </div>
+                <div id="date-of-birth-error" class="error-message" style="display: none;"></div>
+                <div id="general-error-message" class="error-message" style="display: none; text-align: center;"></div>
+                <button type="button" class="form-btn" id="complete-registration-btn">Complete Registration</button>
+            </div>
+
+            <div id="loading-overlay" class="loading-overlay" style="display: none;">
+                <div class="spinner"></div>
+                <div id="loading-text">Loading...</div>
+            </div>
+
+            <button type="button" class="form-btn" id="send-pin-btn">Send PIN Code</button>
+        </form>
+    </div>
+</div>
+
+<div id="existing-account-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <p>This email address is already registered. Would you like to sign in instead?</p>
+        <button id="go-to-signin-btn" class="modal-btn">Sign In</button>
+    </div>
+</div>
+
+<script src="/script.js" th:src="@{/script.js}"></script>
+</body>
+</html>
