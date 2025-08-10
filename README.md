@@ -23,3 +23,12 @@ Database: PostgreSQL
 Containerization: Docker, Docker Compose
 
 Build Tool: Maven
+
+This project serves as a reliable foundation for building secure, microservice-based authentication services within the Spring Boot ecosystem.
+
+
+
+
+
+
+
