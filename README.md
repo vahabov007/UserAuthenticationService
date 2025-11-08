@@ -1,33 +1,80 @@
-This project is a fully functional user authentication system developed using Spring Boot and Spring Security. The application demonstrates a secure login, registration, and session management mechanism, which is a fundamental component of modern software development.
+# UserAuthenticationService
 
-The project's architecture is built on containerization principles using Docker and Docker Compose together with a PostgreSQL database. This approach ensures that the application can be deployed and run seamlessly in any environment.
+A secure and functional user authentication system built with **Spring Boot** and **Spring Security**, demonstrating registration, login, logout, and session management. The project uses **Docker** and **Docker Compose** for containerization and includes a **PostgreSQL** database.
 
-Key Features:
+---
 
-User Authentication: Secure registration, login, and logout functionalities.
+## Features
 
-Password Management: Passwords are securely stored using the BCrypt hashing algorithm.
+- **User Authentication:** Secure registration, login, and logout.
+- **Password Management:** Passwords are hashed using **BCrypt**.
+- **Persistent Login:** "Remember Me" functionality with `JdbcTokenRepositoryImpl`.
+- **Containerization:** Launch the app and database easily with Docker Compose.
+- **Database Management:** Supports data management via `docker exec` and `pg_dump`.
 
-Persistent Login: The Remember Me function is implemented using Spring Security's JdbcTokenRepositoryImpl.
+---
 
-Containerization: The application and database can be easily launched with a single docker compose up command.
+## Technologies Used
 
-Database Management: The repository includes instructions for managing database data and synchronization using commands like docker exec and pg_dump.
+- **Backend:** Java, Spring Boot, Spring Security
+- **Database:** PostgreSQL
+- **Containerization:** Docker, Docker Compose
+- **Build Tool:** Maven
+- **Frontend:** HTML, CSS, JavaScript
 
-Technologies Used:
+---
 
-Backend: Java, Spring Boot, Spring Security
+## Prerequisites
 
-Database: PostgreSQL
+- Docker & Docker Compose installed
+- Java 17+
+- Maven
 
-Containerization: Docker, Docker Compose
+---
 
-Build Tool: Maven
+## Setup & Run
 
-This project serves as a reliable foundation for building secure, microservice-based authentication services within the Spring Boot ecosystem.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/vahabov007/UserAuthenticationService.git
+   cd UserAuthenticationService
+   ```
+2. ## Setup & Run
+   ### Build the Project (optional if using Docker Compose)
+      ```bash
+      ./mvnw clean install
+      ```
+   ### Run with Docker Compose
+      ```bash
+      docker-compose up -d
+      ```
+   ### Access the application
+      ```bash
+      http://localhost:8080
+      ```
+3. ## Database
+   Uses PostgreSQL container.
+   Default database, username, and password are configured in   application.properties or docker-compose.yml.
+   Manage data using Docker commands:
+      ```bash
+   docker exec -it <postgres_container_name> psql -U <username> -d <database_name>
+      ```
+      Backup database:
+      ```bash
+      docker exec <postgres_container_name> pg_dump -U <username> <database_name> > backup.sql
+      ```
+4. ## License
+MIT License
+
+      
 
 
+      
 
+
+   
+   
+   
 
 
 
