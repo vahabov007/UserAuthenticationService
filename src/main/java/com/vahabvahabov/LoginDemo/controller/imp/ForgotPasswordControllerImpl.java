@@ -1,8 +1,8 @@
 package com.vahabvahabov.LoginDemo.controller.imp;
 
 import com.vahabvahabov.LoginDemo.controller.ForgotPasswordController;
-import com.vahabvahabov.LoginDemo.model.PinVerificationRequest;
-import com.vahabvahabov.LoginDemo.model.ResetPasswordRequest;
+import com.vahabvahabov.LoginDemo.dto.PinVerificationRequest;
+import com.vahabvahabov.LoginDemo.dto.ResetPasswordRequest;
 import com.vahabvahabov.LoginDemo.model.User;
 import com.vahabvahabov.LoginDemo.service.EmailService;
 import com.vahabvahabov.LoginDemo.service.UserService;

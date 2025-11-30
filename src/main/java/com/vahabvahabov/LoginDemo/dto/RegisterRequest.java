@@ -1,4 +1,4 @@
-package com.vahabvahabov.LoginDemo.model;
+package com.vahabvahabov.LoginDemo.dto;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

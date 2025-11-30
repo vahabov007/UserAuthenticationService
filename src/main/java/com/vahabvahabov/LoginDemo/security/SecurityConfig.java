@@ -1,16 +1,22 @@
 package com.vahabvahabov.LoginDemo.security;
 
 import com.vahabvahabov.LoginDemo.repository.UserRepository;
+import com.vahabvahabov.LoginDemo.security.jwt.JwtRequestFilter;
+import com.vahabvahabov.LoginDemo.security.jwt.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -44,15 +50,23 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-        tokenRepository.setDataSource(dataSource);
-        tokenRepository.setCreateTableOnStartup(false);
-        return tokenRepository;
+    public JwtRequestFilter jwtRequestFilter(UserDetailsService userDetailsService,
+                                             JwtUtil jwtUtil
+                                             ) {
+        JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
+        jwtRequestFilter.setUserDetailsService(userDetailsService);
+        jwtRequestFilter.setJwtUtil(jwtUtil);
+        return jwtRequestFilter;
+    }
+
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtRequestFilter jwtRequestFilter) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
@@ -69,28 +83,16 @@ public class SecurityConfig {
                                 "/forgot-password",
                                 "/api/register/**",
                                 "/api/forgot-password/**",
-                                "/favicon.ico"
+                                "/favicon.ico",
+                                "/api/auth/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginPage("/my-login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/home", true)
-                        .failureUrl("/my-login?error")
-                        .permitAll()
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/my-login")
-                        .permitAll()
-                )
-                .rememberMe(rememberMe -> rememberMe
-                        .key("myUniqueRememberMeKey")
-                        .tokenRepository(persistentTokenRepository())
-                        .tokenValiditySeconds(86400 * 30)
-                        .userDetailsService(userDetailsService())
-                );
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }

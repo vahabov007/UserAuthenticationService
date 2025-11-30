@@ -1,8 +1,8 @@
 package com.vahabvahabov.LoginDemo.controller.imp;
 
 import com.vahabvahabov.LoginDemo.controller.VerificationController;
-import com.vahabvahabov.LoginDemo.model.PinVerificationRequest;
-import com.vahabvahabov.LoginDemo.model.RegisterRequest;
+import com.vahabvahabov.LoginDemo.dto.PinVerificationRequest;
+import com.vahabvahabov.LoginDemo.dto.RegisterRequest;
 import com.vahabvahabov.LoginDemo.model.User;
 import com.vahabvahabov.LoginDemo.service.EmailService;
 import com.vahabvahabov.LoginDemo.service.UserService;
@@ -79,52 +79,13 @@ public class VerificationControllerImpl implements VerificationController {
 
     @Override
     @PostMapping("/complete-registration")
-    public ResponseEntity<?> completeRegistration(@RequestBody RegisterRequest request) {
-        if (request == null || request.getMail() == null || request.getUsername() == null || request.getPassword() == null || request.getConfirmPassword() == null || request.getDateOfBirth() == null) {
-            return ResponseEntity.badRequest().body(createResponse(false, "All fields are required."));
-        }
+    public ResponseEntity<?> completeRegistration(@RequestBody RegisterRequest request) throws Exception {
+       try {
+           return ResponseEntity.ok(userService.registerUser(request));
 
-        if (userService.findUserByMail(request.getMail()).isPresent()) {
-            return ResponseEntity.badRequest().body(createResponse(false, "This email address is already registered!"));
-        }
-
-        String lowercaseUsername = request.getUsername().toLowerCase();
-        if (userService.findUserByUsername(lowercaseUsername).isPresent()) {
-            return ResponseEntity.badRequest().body(createResponse(false, "This username is already registered!"));
-        }
-
-        String password = request.getPassword();
-        String confirmPassword = request.getConfirmPassword();
-
-        if (password.length() < 8) {
-            return ResponseEntity.badRequest().body(createResponse(false, "Password must be at least 8 characters long."));
-        }
-
-        if (!password.matches(".*\\d.*")) {
-            return ResponseEntity.badRequest().body(createResponse(false, "Password must contain at least one number."));
-        }
-
-        if (!password.equals(confirmPassword)) {
-            return ResponseEntity.badRequest().body(createResponse(false, "The passwords do not match!"));
-        }
-
-        User newUser = new User();
-        newUser.setUsername(lowercaseUsername);
-        newUser.setMail(request.getMail());
-        newUser.setPassword(passwordEncoder.encode(password));
-        newUser.setDate_of_birth(request.getDateOfBirth());
-        newUser.setEmailVerified(true);
-
-        try {
-            userService.saveNewUser(newUser);
-            return ResponseEntity.ok(createResponse(true, "Registration has been successfully!"));
-        } catch (DataAccessException e) {
-            System.err.println("Database access error during registration: " + e.getMessage());
-            return ResponseEntity.badRequest().body(createResponse(false, "There was a problem related to Database. Please try again."));
-        } catch (Exception e) {
-            System.err.println("Unexpected error during registration: " + e.getMessage());
-            return ResponseEntity.badRequest().body(createResponse(false, "Something went wrong."));
-        }
+       }catch (Exception e) {
+           return ResponseEntity.badRequest().body(createResponse(false, e.getMessage()));
+       }
     }
 
     @PostMapping("/resend-pin")

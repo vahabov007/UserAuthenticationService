@@ -1,7 +1,7 @@
 package com.vahabvahabov.LoginDemo.controller;
 
-import com.vahabvahabov.LoginDemo.model.PinVerificationRequest;
-import com.vahabvahabov.LoginDemo.model.ResetPasswordRequest;
+import com.vahabvahabov.LoginDemo.dto.PinVerificationRequest;
+import com.vahabvahabov.LoginDemo.dto.ResetPasswordRequest;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
